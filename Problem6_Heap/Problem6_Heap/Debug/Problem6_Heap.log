@@ -1,0 +1,5 @@
+﻿  Problem6_Heap.cpp
+C:\Users\Administrator\Desktop\Personal\Info2206\Project\Git\Info2206ProjectEx6\Problem6_Heap\Problem6_Heap\Problem6_Heap.cpp(99,15): error C2679: binary '=': no operator found which takes a right-hand operand of type 'NODE *' (or there is no acceptable conversion)
+C:\Users\Administrator\Desktop\Personal\Info2206\Project\Git\Info2206ProjectEx6\Problem6_Heap\Problem6_Heap\Problem6_Heap.cpp(10,1): message : could be 'NODE &NODE::operator =(NODE &&)'
+C:\Users\Administrator\Desktop\Personal\Info2206\Project\Git\Info2206ProjectEx6\Problem6_Heap\Problem6_Heap\Problem6_Heap.cpp(10,1): message : or       'NODE &NODE::operator =(const NODE &)'
+C:\Users\Administrator\Desktop\Personal\Info2206\Project\Git\Info2206ProjectEx6\Problem6_Heap\Problem6_Heap\Problem6_Heap.cpp(99,15): message : while trying to match the argument list '(NODE, NODE *)'
