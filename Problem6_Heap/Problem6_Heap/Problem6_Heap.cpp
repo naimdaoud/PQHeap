@@ -72,55 +72,79 @@ void swim(HEAP* h, int k)
 	}
 }
 
-void sink(HEAP* h, int k)
+void insert(HEAP* h, int ID, int duration, int priority)
 {
-	while (2 * k <= h->N)
-	{
+	int x = ++h->N;
+	if (isFull(h)) {
+		cout << "Priority queue is full";
+		return;
+	}
+	h->a[x].ID = ID ;
+	h->a[x].duration = duration;
+	h->a[x].priority = priority;
+	swim(h, h->N);
+}
+
+void sinkMinHeap(HEAP* h, int k) {
+	while (2 * k <= h->N) {
 		int j = 2 * k;
-		if (j < h->N && h->a[j].priority < h->a[j + 1].priority) j++;
-		if (h->a[k].priority >= h->a[j].priority) break;
+		if (j < h->N && h->a[j].priority > h->a[j + 1].priority) j++;
+		if (h->a[k].priority <= h->a[j].priority) break;
 		swap(h->a, k, j);
 		k = j;
 	}
 }
 
-void insert(HEAP* h, int ID, int duration, int priority)
+NODE deleteMin(HEAP* h)
 {
-	int x = ++h->N;
-	NODE* tmp = new NODE;
-	tmp->ID = ID;
-	tmp->duration = duration;
-	tmp->priority = priority;
-
-	if (isFull(h)) {
-		cout << "Priority queue is full";
-		return;
-	}
-	h->a[x] = tmp;
-	swim(h, h->N);
+	NODE min;
+	/*if (isEmpty(h))
+		return NULL;*/
+	min = h->a[1];
+	h->a[1] = h->a[h->N--];
+	sinkMinHeap(h, 1);
+	return min;
 }
 
-int deleteMax(HEAP* h)
-{
-	NODE max;
-	if (isEmpty(h))
-		return -1;
-	max = h->a[1];
-	h->a[1] = h->a[h->N--];
-	sink(h, 1);
-	return max.ID;
+void heapsort3(HEAP* h, NODE* a, int n) {
+	for (int i = 0; i < n; i++)
+		a[i] = deleteMin(h);
+}
+
+int GetDuration(HEAP* h, NODE* a, int ID) { // Use heapsort and then calculate the duration.
+	int x = 0;
+	int size = h->N;
+	int total = 0;
+	NODE* tmp = new NODE[h->N];
+	heapsort3(h, a, h->N);
+	for (int i = 0; i <= size; i++) {
+		while (x != ID) {
+			total = total + a[i].duration;
+			x = a[i].ID;
+			break;
+		}
+	}
+	return total;
 }
 
 int main()
 {
 	int MAX = 10;
+	NODE* min = new NODE[6];
 	HEAP* h;
+	int ID = 30;
 	h = initialize(MAX);
 
-	insert(h,1,5,5);
-	insert(h,2,4,3);
-	insert(h,3,6,2);
+	insert(h, 100, 3, 2);
+	insert(h, 40 ,4 ,5);
+	insert(h, 20, 2, 1);
+	insert(h, 30, 5, 4);
+	insert(h, 200, 4, 5);
+	insert(h, 50, 4, 3);
 
 	displayHeapArray(h);
 	displayHeapTree(h);
+	 
+	cout << "The duration to complete the task with ID " << ID << " is: " << GetDuration(h, min, ID) << endl;
+
 }
